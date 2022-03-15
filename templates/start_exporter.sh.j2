@@ -1,8 +1,0 @@
-#!/bin/bash
-cd /root/exporters
-./node_exporter --collector.systemd --collector.processes &
-./kafka_exporter --kafka.server={{ ansible_ssh_host }}:9092 &
-./zookeeper-exporter -zk-hosts {{ ansible_ssh_host }}:2181 &
-cd blackbox
-./blackbox_exporter --config.file="./blackbox.yml" &
-

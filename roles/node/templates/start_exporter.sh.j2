@@ -1,0 +1,6 @@
+#!/bin/bash
+cd /root/exporters
+nohup ./node_exporter --collector.systemd --collector.processes &
+cd blackbox
+nohup ./blackbox_exporter --config.file="./blackbox.yml" &
+

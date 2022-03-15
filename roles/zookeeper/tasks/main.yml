@@ -86,20 +86,12 @@
   with_items:
     - { src: zookeeper-exporter, dest: /root/exporters/, mode: 755 }
 
-- name: copy start scripts
-  template:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    mode: "{{ item.mode }}"
-    owner: root
-    group: root
-  with_items:
-    - { src: start_exporter.sh.j2, dest: "/root/exporters/start_exporter.sh", mode: 755 }
+- name: deploy zk exporter
+  blockinfile:
+    path: /root/exporters/start_exporter.sh
+    marker: "# managed by ansible"
+    block: "cd /root/exporters && nohup ./kafka_exporter --kafka.server={{ ansible_ssh_host }}:9092 &"
+    state: present
 
-- name: set auto start
-  cron:
-    name: 'start exporters'
-    job: '/root/exporters/start_exporter.sh'
-    special_time: reboot
-  notify:
-    - start exporter
+- name: start zk exporter
+  shell: "cd /root/exporters && nohup ./kafka_exporter --kafka.server={{ ansible_ssh_host }}:9092 &"
