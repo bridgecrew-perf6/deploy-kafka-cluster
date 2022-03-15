@@ -28,7 +28,7 @@
 
 - name: extract kafka binaries
   unarchive:
-    src: /tmp/kafka_{{ version['scala'] }}-{{ version['kafka'] }}.tgz
+    src: "/tmp/kafka_{{ version['scala'] }}-{{ version['kafka'] }}.tgz"
     dest: /home/kafka/_package/
     owner: kafka
 

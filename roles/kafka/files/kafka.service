@@ -8,9 +8,9 @@ After=network.target remote-fs.target zookeeper.service
 Type=simple
 User=kafka
 Group=kafka
-Environment=JAVA_HOME=/usr/java/jdk1.8.0_311-amd64
-ExecStart=/home/kafka/_package/kafka_{{ version['scala'] }}-{{ version['kafka'] }}/bin/kafka-server-start.sh /home/kafka/_package/kafka_{{ version['scala'] }}-{{ version['kafka'] }}/config/server.properties
-ExecStop=/home/kafka/_package/kafka_{{ version['scala'] }}-{{ version['kafka'] }}/bin/kafka-server-stop.sh
+Environment="JAVA_HOME=/usr/java/jdk{{ version['jdk'] }}-amd64"
+ExecStart="/home/kafka/_package/kafka_{{ version['scala'] }}-{{ version['kafka'] }}/bin/kafka-server-start.sh /home/kafka/_package/kafka_{{ version['scala'] }}-{{ version['kafka'] }}/config/server.properties"
+ExecStop="/home/kafka/_package/kafka_{{ version['scala'] }}-{{ version['kafka'] }}/bin/kafka-server-stop.sh"
 
 [Install]
 WantedBy=multi-user.target
