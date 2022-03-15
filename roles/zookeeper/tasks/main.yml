@@ -31,7 +31,7 @@
 
 - name: download zk binaries
   uri:
-    url: "https://dlcdn.apache.org/zookeeper/zookeeper-3.8.0/apache-zookeeper-{{ version-zk }}-bin.tar.gz"
+    url: "https://dlcdn.apache.org/zookeeper/zookeeper-3.8.0/apache-zookeeper-{{ version_zk }}-bin.tar.gz"
     timeout: 300
     dest: /tmp/
 
@@ -90,7 +90,7 @@
   blockinfile:
     path: /root/exporters/start_exporter.sh
     marker: "# managed by ansible"
-    block: "cd /root/exporters && nohup ./kafka_exporter --kafka.server={{ ansible_ssh_host }}:9092 &"
+    block: "cd /root/exporters && nohup ./zookeeper-exporter --zk-host={{ ansible_ssh_host }}:2181 &"
     state: present
   notify:
     - start zk exporter
