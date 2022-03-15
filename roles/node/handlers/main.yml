@@ -1,3 +1,6 @@
 ---
 - name: update java environment
   shell: source /etc/profile
+
+- name: start exporter
+  shell: /root/exporters/start_exporter.sh

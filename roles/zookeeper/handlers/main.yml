@@ -6,5 +6,5 @@
     enabled: yes
     daemon-reload: yes
 
-- name: start exporter
-  shell: /root/exporters/start_exporter.sh
+- name: start zk exporter
+  shell: "cd /root/exporters && nohup ./zookeeper-exporter --zk-host={{ ansible_ssh_host }}:2181 &"

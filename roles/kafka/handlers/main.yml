@@ -6,5 +6,5 @@
     enabled: yes
     daemon-reload: yes
 
-- name: start exporter
-  shell: /root/exporters/start_exporter.sh
+- name: start kafka exporter
+  shell: "cd /root/exporters && nohup ./kafka_exporter --kafka.server={{ ansible_ssh_node }}:9092 &"

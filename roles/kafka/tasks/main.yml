@@ -79,6 +79,5 @@
     marker: "# managed by ansible"
     block: "cd /root/exporters && nohup ./zookeeper-exporter -zk-hosts {{ ansible_ssh_host }}:2181 &"
     state: present
-
-- name: start kafka exporter
-  shell: "cd /root/exporters && nohup ./zookeeper-exporter -zk-hosts {{ ansible_ssh_host }}:2181 &"
+  notify:
+    - start kafka exporter

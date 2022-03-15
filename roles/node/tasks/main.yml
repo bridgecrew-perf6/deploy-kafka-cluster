@@ -30,4 +30,13 @@
 
 - name: copy exporter scripts
   template:
+    src: start_exporter.sh.j2
+    dest: /root/exporters/start_exporter.sh
+    mode: 755
 
+- name: set auto start
+  cron:
+    name: start exporters
+    job: /root/exporters/start_exporter.sh
+    special_time: reboot
+  notify: start exporter

@@ -92,6 +92,5 @@
     marker: "# managed by ansible"
     block: "cd /root/exporters && nohup ./kafka_exporter --kafka.server={{ ansible_ssh_host }}:9092 &"
     state: present
-
-- name: start zk exporter
-  shell: "cd /root/exporters && nohup ./kafka_exporter --kafka.server={{ ansible_ssh_host }}:9092 &"
+  notify:
+    - start zk exporter
