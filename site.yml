@@ -1,5 +1,7 @@
 ---
 - hosts: ops
+  vars_files:
+    - versions.yml
   tasks:
     - name: download packages
       uri:
