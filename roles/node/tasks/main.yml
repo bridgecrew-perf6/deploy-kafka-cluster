@@ -1,12 +1,12 @@
 ---
 - name: download binary file
-  uri:
-    url: "https://download2274.mediafire.com/2h3gwa8vl1lg/rbjvv6is71cnvok/jdk-8u311-linux-x64.rpm"
+  copy:
+    src: /tmp/jdk-{{ version['java'] }}-linux-x64.rpm
     dest: /tmp/
     timeout: 300
 
 - name: install rpm package
-  shell: yum localinstall -y /tmp/jdk-8u311-linux-x64.rpm
+  shell: yum localinstall -y /tmp/jdk-{{ version['java'] }}-linux-x64.rpm
 
 - name: set java environment
   template:
