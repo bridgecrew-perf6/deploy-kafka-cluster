@@ -24,6 +24,6 @@
   blockinfile:
     path: /etc/hosts
     marker: '# managed by ansible'
-    block: {{ hostvars[item]["ansible_ssh_host"] }}\t{{ hostvars[item]["ansible_ssh_node"] }}
+    block: '{{ hostvars[item]['ansible_ssh_host'] }}\t{{ hostvars[item]['ansible_ssh_node'] }}"
     state: present
   with_inventory_hostnames: ["all"]
