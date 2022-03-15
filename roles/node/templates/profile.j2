@@ -75,7 +75,7 @@ done
 unset i
 unset -f pathmunge
 
-JAVA_HOME=/usr/java/jdk{{ version['jdk'] }}-amd64
+JAVA_HOME=/usr/java/jdk{{ version.jdk }}-amd64
 CLASSPATH=$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
 PATH=$JAVA_HOME/bin:$PATH
 

@@ -31,7 +31,7 @@
 
 - name: extract zk binary
   unarchive:
-    src: /tmp/apache-zookeeper-{{ version['zk'] }}-bin.tar.gz
+    src: /tmp/apache-zookeeper-{{ version.zk }}-bin.tar.gz
     dest: /home/zookeeper/_package/
     owner: zookeeper
 
@@ -43,11 +43,11 @@
     owner: zookeeper
     group: zookeeper
   with_items:
-    - { src: zoo_sample.cfg.j2, dest: "/home/zookeeper/_package/apache-zookeeper-{{ version['zk'] }}-bin/conf/zoo.cfg", mode: 755 }
+    - { src: zoo_sample.cfg.j2, dest: "/home/zookeeper/_package/apache-zookeeper-{{ version.zk }}-bin/conf/zoo.cfg", mode: 755 }
 
 - name: update config
   blockinfile:
-    path: /home/zookeeper/_package/apache-zookeeper-{{ version['zk'] }}-bin/conf/zoo.cfg
+    path: /home/zookeeper/_package/apache-zookeeper-{{ version.zk }}-bin/conf/zoo.cfg
     marker: "# ansible managed zk node"
     block: "server.{{ groupvars[item]['ansible_zk_id'] }}={{ groupvars[item]['ansible_ssh_node']}}:3181:4181"
     state: present
