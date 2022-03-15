@@ -31,13 +31,13 @@
 
 - name: download zk binaries
   uri:
-    url: "https://download1474.mediafire.com/2sz15nfsg23g/s61we13x3ppr20f/zk_3.8.0.tar.gz"
+    url: "https://dlcdn.apache.org/zookeeper/zookeeper-3.8.0/apache-zookeeper-{{ version-zk }}-bin.tar.gz"
     timeout: 300
     dest: /tmp/
 
 - name: extract zk binary
   unarchive:
-    src: /tmp/zk_3.8.0.tar.gz
+    src: /tmp/apache-zookeeper-{{ version-zk }}-bin.tar.gz
     dest: /home/zookeeper/_package/
     owner: zookeeper
     remote_src: yes

@@ -8,9 +8,10 @@ After=network.target
 Type=forking
 User=zookeeper
 Group=zookeeper
-ExecStart=/home/zookeeper/_package/bin/zkServer.sh start /home/zookeeper/_package/conf/zoo.cfg
-ExecStop=/home/zookeeper/_package/bin/zkServer.sh stop /home/zookeeper/_package/conf/zoo.cfg
-ExecReload=/home/zookeeper/_package/bin/zkServer.sh restart /home/zookeeper/_package/conf/zoo.cfg
+Environment=JAVA_HOME=/usr/java/jdk1.8.0_311-amd64
+ExecStart=/home/zookeeper/_package/apache-zookeeper-{{ version-zk }}-bin/bin/zkServer.sh start /home/zookeeper/_package/apache-zookeeper-{{ version-zk }}-bin/conf/zoo.cfg
+ExecStop=/home/zookeeper/_package/apache-zookeeper-{{ version-zk }}-bin/bin/zkServer.sh stop /home/zookeeper/_package/apache-zookeeper-{{ version-zk }}-bin/conf/zoo.cfg
+ExecReload=/home/zookeeper/_package/apache-zookeeper-{{ version-zk }}-bin/bin/zkServer.sh restart /home/zookeeper/_package/apache-zookeeper-{{ version-zk }}-bin/conf/zoo.cfg
 WorkingDirectory=/home/zookeeper/dataDir
 
 [Install]
