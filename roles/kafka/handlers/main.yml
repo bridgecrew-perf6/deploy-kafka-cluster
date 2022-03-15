@@ -1,0 +1,10 @@
+---
+- name: enable and start kafka
+  service:
+    name: kafka
+    state: restarted
+    enabled: yes
+    daemon-reload: yes
+
+- name: start exporter
+  shell: /root/exporters/start_exporter.sh

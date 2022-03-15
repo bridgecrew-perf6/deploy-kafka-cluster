@@ -1,0 +1,92 @@
+---
+- name: Create kafka group
+  group:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - kafka
+
+- name: Create kafka user
+  user:
+    name: "{{ item }}"
+    home: "/home/{{ item }}"
+    group: "{{ item }}"
+    state: present
+    shell: /sbin/nologin
+  loop:
+    - kafka
+
+- name: Create kafka dir
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: kafka
+    group: kafka
+  with_items:
+    - "/home/kafka/_package"
+    - "/home/kafka/kafka-logs"
+
+- name: download kafka binaries
+  uri:
+    url: https://download947.mediafire.com/qufjr2e3h14g/5ijbk62pnpc71vi/kafka_3.1.0.tar.gz
+    dest: /tmp/
+    timeout: 300
+
+- name: extract kafka binaries
+  unarchive:
+    src: /tmp/kafka_3.1.0.tar.gz
+    dest: /home/kafka/_package/
+    remote_src: true
+    owner: kafka
+
+- name: update config
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+    owner: kafka
+    group: kafka
+  with_items:
+    - { src: server.properties.j2, dest: "/home/kafka/_package/config/server.properties", mode: 755 }
+
+- name: enable service
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+    owner: kafka
+    group: kafka
+  with_items:
+    - { src: kafka.service, dest: "/etc/systemd/system/", mode: 755 }
+  notify:
+    - enable and start kafka
+  tags:
+    - config
+
+- name: copy exporter binary
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+    owner: root
+    group: root
+  with_items:
+    - { src: kafka_exporter, dest: /root/exporters/, mode: 755 }
+
+- name: copy start scripts
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+    owner: root
+    group: root
+  with_items:
+    - { src: start_exporter.sh.j2, dest: "/root/exporters/start_exporter.sh", mode: 755 }
+
+- name: set auto start
+  cron:
+    name: 'start exporters'
+    job: '/root/exporters/start_exporter.sh'
+    special_time: reboot
+  notify:
+    - start exporter

@@ -1,0 +1,10 @@
+- hosts: all
+  gather_facts: no
+  tasks:
+  - name: items
+    blockinfile:
+      path: /tmp/test.txt
+      marker: "# ansible managed"
+      block: "{{ hostvars[item]['ansible_ssh_host'] }}\t{{ item }}"
+      state: absent
+    with_inventory_hostnames: ["all"]

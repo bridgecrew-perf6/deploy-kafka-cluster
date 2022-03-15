@@ -1,0 +1,105 @@
+---
+- name: Create zk group
+  group:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - zookeeper
+
+- name: Create zk user
+  user:
+    name: "{{ item }}"
+    home: "/home/{{ item }}"
+    group: "{{ item }}"
+    shell: /sbin/nologin
+    state: present
+  loop:
+    - zookeeper
+
+- name: Create zk dir
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: zookeeper
+    group: zookeeper
+  with_items:
+    - "/home/zookeeper/_package"
+    - "/home/zookeeper/dataDir"
+
+- name: set node id
+  shell: echo "{{ ansible_zk_id }}" > /home/zookeeper/dataDir/myid && chown zookeeper.zookeeper /home/zookeeper/dataDir/myid
+
+- name: download zk binaries
+  uri:
+    url: "https://download1474.mediafire.com/2sz15nfsg23g/s61we13x3ppr20f/zk_3.8.0.tar.gz"
+    timeout: 300
+    dest: /tmp/
+
+- name: extract zk binary
+  unarchive:
+    src: /tmp/zk_3.8.0.tar.gz
+    dest: /home/zookeeper/_package/
+    owner: zookeeper
+    remote_src: yes
+
+- name: copy config template
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+    owner: zookeeper
+    group: zookeeper
+  with_items:
+    - { src: zoo_sample.cfg.j2, dest: "/home/zookeeper/_package/conf/zoo.cfg", mode: 755 }
+
+- name: update config
+  blockinfile:
+    path: /home/zookeeper/_package/conf/zoo.cfg
+    marker: "# ansible managed zk node"
+    block: "server."{{ groupvars[item]["ansible_zk_id"] }}"="{{ groupvars[item][ansible_ssh_node]}}":3181:4181"
+    state: present
+    owner: zookeeper
+    group: zookeeper
+  with_inventory_hostnames: ["zookeeper"]
+    -
+- name: enable service
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+    owner: zookeeper
+    group: zookeeper
+  with_items:
+    - { src: zookeeper.service, dest: "/etc/systemd/system/", mode: 755 }
+  notify:
+    - enable and start zookeeper
+  tags:
+    - config
+
+- name: copy exporter binary
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+    owner: root
+    group: root
+  with_items:
+    - { src: zookeeper-exporter, dest: /root/exporters/, mode: 755 }
+
+- name: copy start scripts
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+    owner: root
+    group: root
+  with_items:
+    - { src: start_exporter.sh.j2, dest: "/root/exporters/start_exporter.sh", mode: 755 }
+
+- name: set auto start
+  cron:
+    name: 'start exporters'
+    job: '/root/exporters/start_exporter.sh'
+    special_time: reboot
+  notify:
+    - start exporter

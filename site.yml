@@ -1,0 +1,14 @@
+- name: init system
+  hosts: all
+  roles:
+    - role: node
+
+- name: deploy zk
+  hosts: zookeeper
+  roles:
+    - role: zookeeper
+
+- name: deploy kafka
+  hosts: kafka
+  roles:
+    - role: kafka
