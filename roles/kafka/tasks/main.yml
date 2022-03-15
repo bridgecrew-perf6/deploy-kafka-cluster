@@ -28,13 +28,13 @@
 
 - name: download kafka binaries
   uri:
-    url: "https://dlcdn.apache.org/kafka/3.1.0/kafka_{{ version_scala }}-{{ version_kafka }}.tgz"
+    url: https://dlcdn.apache.org/kafka/3.1.0/kafka_"{{ version_scala }}"-"{{ version_kafka }}".tgz
     dest: /tmp/
     timeout: 300
 
 - name: extract kafka binaries
   unarchive:
-    src: /tmp/kafka_{{ version_scala }}-{{ version_kafka }}.tgz
+    src: /tmp/kafka_"{{ version_scala }}"-"{{ version_kafka }}".tgz
     dest: /home/kafka/_package/
     remote_src: true
     owner: kafka
@@ -47,7 +47,7 @@
     owner: kafka
     group: kafka
   with_items:
-    - { src: server.properties.j2, dest: "/home/kafka/_package/kafka_{{ version_scala }}-{{ version_kafka }}/config/server.properties", mode: 755 }
+    - { src: server.properties.j2, dest: '/home/kafka/_package/kafka_"{{ version_scala }}"-"{{ version_kafka }}"/config/server.properties', mode: 755 }
 
 - name: enable service
   copy:
