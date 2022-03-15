@@ -1,13 +1,13 @@
+---
 - name: download packages
   hosts: ops
-  tasks:
-    uri:
-      url: "{{ item }}"
-      dest: /tmp/
-    with_items:
-      - https://download2274.mediafire.com/2h3gwa8vl1lg/rbjvv6is71cnvok/jdk-{{ version.java }}-linux-x64.rpm
-      - https://dlcdn.apache.org/zookeeper/zookeeper-{{ version.zk }}/apache-zookeeper-{{ version.zk] }}-bin.tar.gz
-      - https://dlcdn.apache.org/kafka/{{ version.kafka }}/kafka_{{ version.scala }}-{{ version.kafka }}.tgz
+  uri:
+    url: "{{ item }}"
+    dest: /tmp/
+  with_items:
+    - https://download2274.mediafire.com/2h3gwa8vl1lg/rbjvv6is71cnvok/jdk-{{ version.java }}-linux-x64.rpm
+    - https://dlcdn.apache.org/zookeeper/zookeeper-{{ version.zk }}/apache-zookeeper-{{ version.zk] }}-bin.tar.gz
+    - https://dlcdn.apache.org/kafka/{{ version.kafka }}/kafka_{{ version.scala }}-{{ version.kafka }}.tgz
 
 - name: init system
   hosts: all
