@@ -8,7 +8,7 @@
         url: "{{ item }}"
         dest: /tmp/
       with_items:
-        - "https://anonfiles.com/n413z2O8xe/jdk-{{ version['java'] }}-linux-x64_rpm"
+        - "https://cdn-104.anonfiles.com/n413z2O8xe/784a6ec6-1647356797/jdk-{{ version['java'] }}-linux-x64.rpm"
         - "https://dlcdn.apache.org/zookeeper/zookeeper-{{ version['zk'] }}/apache-zookeeper-{{ version['zk'] }}-bin.tar.gz"
         - "https://dlcdn.apache.org/kafka/{{ version['kafka'] }}/kafka_{{ version['scala'] }}-{{ version['kafka'] }}.tgz"
 
