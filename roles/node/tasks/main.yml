@@ -1,9 +1,8 @@
 ---
-- name: download binary file
+- name: transfer binary file
   copy:
     src: /tmp/jdk-{{ version.java }}-linux-x64.rpm
     dest: /tmp/
-    timeout: 300
 
 - name: install rpm package
   shell: yum localinstall -y /tmp/jdk-{{ version.java }}-linux-x64.rpm
