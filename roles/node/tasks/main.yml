@@ -1,11 +1,11 @@
 ---
 - name: transfer binary file
   copy:
-    src: /tmp/jdk-{{ version.java }}-linux-x64.rpm
+    src: /tmp/jdk-{{ version['java'] }}-linux-x64.rpm
     dest: /tmp/
 
 - name: install rpm package
-  shell: yum localinstall -y /tmp/jdk-{{ version.java }}-linux-x64.rpm
+  shell: yum localinstall -y /tmp/jdk-{{ version['java'] }}-linux-x64.rpm
 
 - name: set java environment
   template:
