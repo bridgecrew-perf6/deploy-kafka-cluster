@@ -61,7 +61,7 @@
     owner: zookeeper
     group: zookeeper
   with_inventory_hostnames: ["zookeeper"]
-    -
+
 - name: enable service
   copy:
     src: "{{ item.src }}"
