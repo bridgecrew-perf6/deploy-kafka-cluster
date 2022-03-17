@@ -34,6 +34,7 @@
     src: "/tmp/zookeeper-{{ version['zk'] }}.tar.gz"
     dest: /home/zookeeper/_package/
     owner: zookeeper
+    group: zookeeper
 
 - name: copy config template
   template:
@@ -49,21 +50,21 @@
   blockinfile:
     path: "/home/zookeeper/_package/conf/zoo.cfg"
     marker: "# ansible managed zk node"
-    block: "server.{{ groupvars[item]['ansible_zk_id'] }}={{ groupvars[item]['ansible_ssh_node']}}:3181:4181"
+    block: "server.{{ hostvars[item]['ansible_zk_id'] }}={{ hostvars[item]['ansible_ssh_node']}}:3181:4181"
     state: present
     owner: zookeeper
     group: zookeeper
   with_inventory_hostnames: ["zookeeper"]
 
-- name: enable service
-  copy:
+- name: copy zk unit file
+  template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: "{{ item.mode }}"
     owner: zookeeper
     group: zookeeper
   with_items:
-    - { src: zookeeper.service, dest: "/etc/systemd/system/", mode: 755 }
+    - { src: zookeeper.service.j2, dest: "/etc/systemd/system/zookeeper.service", mode: 755 }
   notify:
     - enable and start zookeeper
   tags:

@@ -26,11 +26,12 @@
     - "/home/kafka/_package"
     - "/home/kafka/kafka-logs"
 
-- name: extract kafka binaries
+- name: extract kafka binary
   unarchive:
     src: "/tmp/kafka_{{ version['scala'] }}-{{ version['kafka'] }}.tar.gz"
     dest: /home/kafka/_package/
     owner: kafka
+    group: kafka
 
 - name: update config
   template:
@@ -43,14 +44,14 @@
     - { src: server.properties.j2, dest: "/home/kafka/_package/config/server.properties", mode: 755 }
 
 - name: enable service
-  copy:
+  template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: "{{ item.mode }}"
     owner: kafka
     group: kafka
   with_items:
-    - { src: kafka.service, dest: "/etc/systemd/system/", mode: 755 }
+    - { src: kafka.service.j2, dest: "/etc/systemd/system/kafka.service", mode: 755 }
   notify:
     - enable and start kafka
   tags:

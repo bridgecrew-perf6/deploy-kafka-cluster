@@ -1,20 +1,11 @@
 ---
-- hosts: ops
-  vars_files:
-    - versions.yml
-  tasks:
-    - name: download packages
-      uri:
-        url: "{{ item }}"
-        dest: /tmp/
-        follow_redirects: all
-      with_items:
-        - "https://shared-objects.oss-cn-qingdao.aliyuncs.com/jdk-{{ version['java'] }}-linux-x64.rpm"
-        - "https://shared-objects.oss-cn-qingdao.aliyuncs.com/zookeeper-{{ version['zk'] }}.tar.gz"
-        - "https://shared-objects.oss-cn-qingdao.aliyuncs.com/kafka_{{ version['scala'] }}-{{ version['kafka'] }}.tar.gz"
+- name: download binary packages
+  hosts: ops
+  roles:
+    - role: ops
 
 - name: init system
-  hosts: all
+  hosts: node
   roles:
     - role: node
 
