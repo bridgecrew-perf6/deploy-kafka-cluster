@@ -28,7 +28,7 @@
 
 - name: extract kafka binaries
   unarchive:
-    src: "/tmp/kafka_{{ version['scala'] }}-{{ version['kafka'] }}.tgz"
+    src: "/tmp/kafka_{{ version['scala'] }}-{{ version['kafka'] }}.tar.gz"
     dest: /home/kafka/_package/
     owner: kafka
 
@@ -40,7 +40,7 @@
     owner: kafka
     group: kafka
   with_items:
-    - { src: server.properties.j2, dest: "/home/kafka/_package/kafka_{{ version['scala'] }}-{{ version['kafka'] }}/config/server.properties", mode: 755 }
+    - { src: server.properties.j2, dest: "/home/kafka/_package/config/server.properties", mode: 755 }
 
 - name: enable service
   copy:

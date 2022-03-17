@@ -9,8 +9,8 @@
         dest: /tmp/
       with_items:
         - "https://shared-objects.oss-cn-qingdao.aliyuncs.com/jdk-{{ version['java'] }}-linux-x64.rpm"
-        - "https://dlcdn.apache.org/zookeeper/zookeeper-{{ version['zk'] }}/apache-zookeeper-{{ version['zk'] }}-bin.tar.gz"
-        - "https://dlcdn.apache.org/kafka/{{ version['kafka'] }}/kafka_{{ version['scala'] }}-{{ version['kafka'] }}.tgz"
+        - "https://shared-objects.oss-cn-qingdao.aliyuncs.com/zookeeper-{{ version['zk'] }}.tar.gz"
+        - "https://shared-objects.oss-cn-qingdao.aliyuncs.com/kafka_{{ version['scala'] }}-{{ version['kafka'] }}.tar.gz"
 
 - name: init system
   hosts: all
