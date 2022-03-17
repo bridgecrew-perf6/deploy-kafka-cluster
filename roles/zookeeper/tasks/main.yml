@@ -50,7 +50,7 @@
   blockinfile:
     path: "/home/zookeeper/_package/conf/zoo.cfg"
     marker: "# ansible managed zk node"
-    block: "server.{{ hostvars[item]['ansible_zk_id'] }}={{ hostvars[item]['ansible_ssh_node']}}:3181:4181"
+    block: "server.{{ hostvars[item]['ansible_zk_id'] }}={{ hostvars[item]['ansible_ssh_node'] }}:3181:4181"
     state: present
     owner: zookeeper
     group: zookeeper
