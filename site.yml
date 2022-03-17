@@ -7,6 +7,7 @@
       uri:
         url: "{{ item }}"
         dest: /tmp/
+        follow_redirects: all
       with_items:
         - "https://shared-objects.oss-cn-qingdao.aliyuncs.com/jdk-{{ version['java'] }}-linux-x64.rpm"
         - "https://shared-objects.oss-cn-qingdao.aliyuncs.com/zookeeper-{{ version['zk'] }}.tar.gz"
