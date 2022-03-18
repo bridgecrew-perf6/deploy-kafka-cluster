@@ -1,4 +1,16 @@
 ---
+- name: gather cluster info
+  set_fact:
+    zookeeper_address: |-
+      [
+        {% set host_list = groups.node %}
+        {% for host in host_list -%}
+          {% set node_name = hostvars[host].inventory_hostname | default(host) -%}
+          {% set node_ip = 2181 -%}
+          "{{ node_ip }}:{{ node_port }},"
+        {% endfor -%}
+      ]
+
 - name: Create kafka group
   group:
     name: "{{ item }}"
@@ -43,7 +55,7 @@
   loop:
     - kafka
 
-- name: update config
+- name: transfer kafka config file
   template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -52,6 +64,16 @@
     group: kafka
   with_items:
     - { src: server.properties.j2, dest: "/home/kafka/_package/config/server.properties", mode: 755 }
+
+- name: update kafka config
+  blockinfile:
+    path: /home/kafka/_package/config/server.properties
+    marker: "# ansible managed block"
+    block: "zookeeper.connect={{ cluster_address | join(',') }}"
+    state: present
+    insertafter: '# You can also append an optional chroot string to the urls to specify the\n# root directory for all kafka znodes.'
+    owner: kafka
+    group: kafka
 
 - name: enable service
   template:

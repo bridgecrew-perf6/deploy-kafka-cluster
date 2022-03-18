@@ -1,4 +1,16 @@
 ---
+- name: gather cluster info
+  set_fact:
+    cluster_address: |-
+      [
+        {% set host_list = groups.node %}
+        {% for host in host_list -%}
+          {% set node_name = hostvars[host].inventory_hostname | default(host) -%}
+          {% set node_ip = hostvars[host]['ansible_ssh_host'] | default(host) -%}
+          "{{ node_ip }}\t{{ node_name }}\n"
+        {% endfor -%}
+      ]
+
 - name: transfer binary file
   copy:
     src: "/tmp/jdk-{{ version['java'] }}-linux-x64.rpm"
@@ -21,10 +33,12 @@
 
 - name: set hosts
   blockinfile:
-    path: /etc/hosts
-    marker: '# managed by ansible'
-    block: "{{ hostvars[item]['ansible_ssh_host'] }}\t{{ hostvars[item]['ansible_ssh_node'] }}"
+    path: "/etc/hosts"
+    marker: "# ansible managed nodes"
+    block: "{{ cluster_address | join(',') }}"
     state: present
+    owner: root
+    group: root
   with_inventory_hostnames: ["node"]
 
 - name: copy exporter scripts
