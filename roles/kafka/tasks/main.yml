@@ -33,6 +33,16 @@
     owner: kafka
     group: kafka
 
+- name: change scripts privileges
+  file:
+    name: "/home/{{ item }}/_package/bin"
+    owner: "{{ item }}"
+    group: "{{ item }}"
+    mode: 0755
+    recurse: yes
+  loop:
+    - kafka
+
 - name: update config
   template:
     src: "{{ item.src }}"
