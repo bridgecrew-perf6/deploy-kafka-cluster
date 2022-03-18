@@ -68,8 +68,8 @@
 - name: update kafka config
   blockinfile:
     path: /home/kafka/_package/config/server.properties
-    marker: "# ansible managed block"
-    block: "zookeeper.connect={{ cluster_address | join(',') }}"
+    marker: "# ansible managed blocks"
+    block: "zookeeper.connect={{ zookeeper_address | join(',') }}"
     state: present
     insertafter: '# You can also append an optional chroot string to the urls to specify the\n# root directory for all kafka znodes.'
     owner: kafka
