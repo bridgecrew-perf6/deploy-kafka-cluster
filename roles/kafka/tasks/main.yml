@@ -6,8 +6,8 @@
         {% set host_list = groups.node %}
         {% for host in host_list -%}
           {% set node_name = hostvars[host].inventory_hostname | default(host) -%}
-          {% set node_ip = 2181 -%}
-          "{{ node_ip }}:{{ node_port }},"
+          {% set node_port = 2181 -%}
+          "{{ node_name }}:{{ node_port }},"
         {% endfor -%}
       ]
 
