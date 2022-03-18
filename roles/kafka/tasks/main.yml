@@ -71,7 +71,7 @@
     marker: "# ansible managed blocks"
     block: "zookeeper.connect={{ zookeeper_address | join(',') }}"
     state: present
-    insertafter: '# You can also append an optional chroot string to the urls to specify the\n# root directory for all kafka znodes.'
+    insertafter: '# root directory for all kafka znodes.'
     owner: kafka
     group: kafka
 
