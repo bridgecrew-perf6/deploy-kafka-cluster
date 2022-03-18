@@ -1,6 +1,0 @@
----
-version:
-  java: 8u311
-  jdk: 1.8.0_311
-  scala: 2.13
-  kafka: 3.1.0

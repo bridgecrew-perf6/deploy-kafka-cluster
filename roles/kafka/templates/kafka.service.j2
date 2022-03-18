@@ -9,6 +9,7 @@ Type=simple
 User=kafka
 Group=kafka
 Environment=JAVA_HOME=/usr/java/jdk{{ version['jdk'] }}-amd64
+Environment="KAFKA_OPTS=-javaagent:{{ kafka_home }}/libs/jmx_prometheus_javaagent-{{ version['jmx'] }}.jar={{ jmx_port }}:{{ kafka_home }}/config/config.yaml"
 ExecStart=/home/kafka/_package/bin/kafka-server-start.sh /home/kafka/_package/config/server.properties
 ExecStop=/home/kafka/_package/bin/kafka-server-stop.sh
 
