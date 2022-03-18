@@ -3,7 +3,7 @@
   set_fact:
     zookeeper_address: |-
       [
-        {% set host_list = groups.node %}
+        {% set host_list = groups.zookeeper %}
         {% for host in host_list -%}
           {% set node_name = hostvars[host].inventory_hostname | default(host) -%}
           {% set node_port = 2181 -%}
