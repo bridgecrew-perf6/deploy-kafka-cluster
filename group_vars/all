@@ -5,3 +5,5 @@ version:
   zk: 3.8.0
   scala: 2.13
   kafka: 3.1.0
+kafka_home: /home/kafka/_package
+jmx_port: 7075
