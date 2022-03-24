@@ -17,7 +17,9 @@
     dest: /tmp/
 
 - name: install rpm package
-  shell: "yum localinstall -y /tmp/jdk-{{ version['java'] }}-linux-x64.rpm"
+  yum:
+    name: "/tmp/jdk-{{ version['java'] }}-linux-x64.rpm"
+    state: installed
 
 - name: set java environment
   template:
