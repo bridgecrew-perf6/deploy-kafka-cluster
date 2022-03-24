@@ -141,3 +141,14 @@
     state: restarted
     enabled: true
     daemon_reload: yes
+
+- name: copy prometheus assistant script
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+  with_items:
+    - { src: prometheus_assistant.py, dest: /root/, mode: 755 }
+
+- name: registe prometheus datasource
+  shell: "/root/prometheus_assistant.py "
