@@ -9,6 +9,11 @@
   roles:
     - role: node
 
+- name: deploy monitor
+  hosts: ops
+  roles:
+    - role: monitor
+
 - name: deploy zk
   hosts: zookeeper
   roles:

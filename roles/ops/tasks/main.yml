@@ -1,10 +1,12 @@
 ---
 - name: download packages
   uri:
-    url: "{{ item }}"
-    dest: /tmp/
+    url: "{{ item.url }}"
+    dest: "{{ item.dest }}"
     follow_redirects: all
   with_items:
-    - "https://shared-objects.oss-cn-qingdao.aliyuncs.com/jdk-{{ version['java'] }}-linux-x64.rpm"
-    - "https://shared-objects.oss-cn-qingdao.aliyuncs.com/zookeeper-{{ version['zk'] }}.tar.gz"
-    - "https://shared-objects.oss-cn-qingdao.aliyuncs.com/kafka_{{ version['scala'] }}-{{ version['kafka'] }}.tar.gz"
+    - { url: "https://shared-objects.oss-cn-qingdao.aliyuncs.com/jdk-{{ version['java'] }}-linux-x64.rpm", dest: "/tmp/jdk-{{ version['java'] }}-linux-x64.rpm" }
+    - { url: "https://shared-objects.oss-cn-qingdao.aliyuncs.com/zookeeper-{{ version['zk'] }}.tar.gz", dest: "/tmp/zookeeper-{{ version['zk'] }}.tar.gz" }
+    - { url: "https://shared-objects.oss-cn-qingdao.aliyuncs.com/kafka_{{ version['scala'] }}-{{ version['kafka'] }}.tar.gz", dest: "/tmp/kafka_{{ version['scala'] }}-{{ version['kafka'] }}.tar.gz" }
+    - { url: "https://github.com/prometheus/prometheus/releases/download/v{{ version['prometheus'] }}/prometheus-{{ version['prometheus'] }}.linux-amd64.tar.gz", dest: "/tmp/prometheus-{{ version['prometheus'] }}.linux-amd64.tar.g" }
+    - { url: "https://dl.grafana.com/enterprise/release/grafana-enterprise-{{ version['grafna'] }}.x86_64.rpm", dest: "/tmp/grafana-enterprise-{{ version['grafna'] }}.x86_64.rpm" }

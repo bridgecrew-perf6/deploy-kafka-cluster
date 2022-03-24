@@ -6,5 +6,8 @@ version:
   scala: 2.13
   kafka: 3.1.0
   jmx: 1.8.0_311
+  prometheus: 2.34.0
+  grafana: 8.4.4-1
 kafka_home: /home/kafka/_package
 jmx_port: 7075
+dc_name: "dc1"
